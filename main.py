@@ -1,7 +1,12 @@
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, send_from_directory
 import random
 
 app = Flask(__name__, static_folder="static")
+
+# Ruta para servir el favicon
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory("static", "favicon.ico", mimetype="image/vnd.microsoft.icon")
 
 PILOTOS = ["Verstappen", "Lawson", "Leclerc", "Sainz", "Hamilton", "Russell", "Norris", "Piastri", "Alonso", "Stroll", 
            "Gasly", "Ocon", "Bortoleto", "Bearman", "Tsunoda", "Colapinto", "Hulkenberg", "Antonelli", "Albon", "Hadjar"]
