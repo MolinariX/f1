@@ -36,44 +36,50 @@
             </div>
         </div>
         
-        <h2>Final Positions</h2>
-        <table id="final-positions">
-            <thead>
-                <tr>
-                    <th>Position</th>
-                    <th>Driver</th>
-                    <th>Team</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+        <!-- Table switching buttons -->
+        <div class="table-buttons">
+            <button id="final-positions-btn" class="table-btn active-btn" data-table="final-positions">Race Results</button>
+            <button id="driver-standings-btn" class="table-btn" data-table="driver-standings">Driver Standings</button>
+            <button id="constructor-standings-btn" class="table-btn" data-table="constructor-standings">Constructor Standings</button>
+        </div>
         
-        <h2>Driver Standings</h2>
-        <table id="driver-standings">
-            <thead>
-                <tr>
-                    <th>Position</th>
-                    <th>Driver</th>
-                    <th>Points</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-        
-        <h2>Constructor Standings</h2>
-        <table id="constructor-standings">
-            <thead>
-                <tr>
-                    <th>Position</th>
-                    <th>Team</th>
-                    <th>Points</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+        <div class="table-container">
+            <table id="final-positions" class="standings-table">
+                <thead>
+                    <tr>
+                        <th>Position</th>
+                        <th>Driver</th>
+                        <th>Team</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            
+            <table id="driver-standings" class="standings-table">
+                <thead>
+                    <tr>
+                        <th>Position</th>
+                        <th>Driver</th>
+                        <th>Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            
+            <table id="constructor-standings" class="standings-table">
+                <thead>
+                    <tr>
+                        <th>Position</th>
+                        <th>Team</th>
+                        <th>Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
     </div>
     
     <div id="overlay"></div>

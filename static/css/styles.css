@@ -252,3 +252,43 @@ tr:hover {
     font-size: 0.9em;
     color: #666;
 }
+
+/* Table switching styles */
+.table-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.table-btn {
+    padding: 10px 15px;
+    background-color: #f1f1f1;
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.table-btn:hover {
+    background-color: #ddd;
+}
+
+.table-btn.active-btn {
+    background-color: #333;
+    color: white;
+}
+
+.table-section {
+    margin-top: 20px;
+}
+
+.standings-table {
+    display: none;
+}
+
+.table-container {
+    margin-top: 20px;
+}

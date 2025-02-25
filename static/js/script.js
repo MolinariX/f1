@@ -2,6 +2,7 @@ let raceCount = 0;
 let totalRaces = 0;
 let raceHistory = {};
 let driverStandingsData = []; // Store the driver standings data globally
+let activeTable = 'final-positions'; // Track which table is currently visible
 
 document.getElementById('set-races').addEventListener('click', () => {
     const input = document.getElementById('total-races');
@@ -23,6 +24,7 @@ document.getElementById('reset-game').addEventListener('click', async () => {
     totalRaces = 0;
     raceHistory = {};
     driverStandingsData = [];
+    activeTable = 'final-positions';
     
     // Reset UI elements
     document.getElementById('race-count').textContent = '0';
@@ -40,6 +42,9 @@ document.getElementById('reset-game').addEventListener('click', async () => {
         tableBody.innerHTML = '';
     });
     
+    // Show the final positions table by default
+    showTable('final-positions');
+    
     // Reset backend state
     await fetch('/reset', { method: 'POST' });
 });
@@ -55,6 +60,37 @@ document.getElementById('simulate-race').addEventListener('click', async () => {
             document.getElementById('simulate-race').style.display = 'none';
         }
     }
+});
+
+// Table switching functionality
+function showTable(tableId) {
+    // Hide all tables
+    document.querySelectorAll('.standings-table').forEach(table => {
+        table.style.display = 'none';
+    });
+    
+    // Show the selected table
+    document.getElementById(tableId).style.display = 'table';
+    activeTable = tableId;
+    
+    // Update active button state
+    document.querySelectorAll('.table-btn').forEach(btn => {
+        btn.classList.remove('active-btn');
+    });
+    document.getElementById(tableId + '-btn').classList.add('active-btn');
+}
+
+// Event listeners for table buttons
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.table-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const tableId = e.target.getAttribute('data-table');
+            showTable(tableId);
+        });
+    });
+    
+    // Show the final positions table by default
+    showTable('final-positions');
 });
 
 async function fetchData() {
