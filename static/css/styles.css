@@ -65,7 +65,7 @@
     --box-shadow: rgba(0, 0, 0, 0.4);
     --medal-bg: #2c2c2c;
     --medal-shadow: rgba(0, 0, 0, 0.3);
-    --winner-points-color: #aaa;
+    --winner-points-color: #ffffff; /* Cambiado de #aaa a blanco para mayor contraste */
     --input-border: #444;
     --input-focus: #e10600; /* Rojo F1 */
 }
@@ -472,6 +472,14 @@ tr:hover {
     color: #000;
 }
 
+/* Asegurar que los puntos en el podio sean visibles independientemente del modo */
+.podium-place.first .winner-points,
+.podium-place.second .winner-points,
+.podium-place.third .winner-points {
+    color: #333;
+    font-weight: 600;
+}
+
 .position-medal {
     width: 36px;
     height: 36px;
@@ -497,6 +505,7 @@ tr:hover {
 .winner-points {
     font-size: 0.9em;
     color: var(--winner-points-color);
+    font-weight: 500;
 }
 
 /* Table switching styles */
