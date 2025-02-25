@@ -8,8 +8,8 @@ app = Flask(__name__, static_folder="static")
 def favicon():
     return send_from_directory("static", "favicon.ico", mimetype="image/vnd.microsoft.icon")
 
-PILOTOS = ["Verstappen", "Lawson", "Leclerc", "Sainz", "Hamilton", "Russell", "Norris", "Piastri", "Alonso", "Stroll", 
-           "Gasly", "Ocon", "Bortoleto", "Bearman", "Tsunoda", "Colapinto", "Hulkenberg", "Antonelli", "Albon", "Hadjar"]
+PILOTOS = ["Verstappen", "Lawson", "Leclerc", "Sainz", "Hamilton", "Russell", "Norris", "Piastri", "Alonso", "Stroll",
+            "Gasly", "Ocon", "Bortoleto", "Bearman", "Tsunoda", "Colapinto", "Hulkenberg", "Antonelli", "Albon", "Hadjar"]
 
 CONSTRUCTORES = {
     "Red Bull": ["Verstappen", "Lawson"],
@@ -54,7 +54,7 @@ def reset():
 def data():
     posiciones_finales = random.sample(PILOTOS, len(PILOTOS))
     resultados_carrera = {"race_number": len(historial_carreras) + 1, "positions": []}
-
+    
     for i, piloto in enumerate(posiciones_finales):
         puntos_carrera = PUNTOS[i] if i < 10 else 0
         equipo = get_team_for_driver(piloto)
@@ -69,17 +69,17 @@ def data():
         if i < 10:
             mundial_pilotos[piloto] += puntos_carrera
             mundial_constructores[equipo] += puntos_carrera
-
+    
     historial_carreras.append(resultados_carrera)
-
+    
     driver_standings = sorted(mundial_pilotos.items(), key=lambda x: x[1], reverse=True)
     constructor_standings = sorted(mundial_constructores.items(), key=lambda x: x[1], reverse=True)
-
+    
     final_positions = [
         {"position": pos["position"], "driver": pos["driver"], "team": pos["team"], "logo": LOGOS[pos["team"]], "points": pos["points"]}
         for pos in resultados_carrera["positions"]
     ]
-
+    
     return jsonify({
         "final_positions": final_positions,
         "driver_standings": [

@@ -53,6 +53,14 @@ tr:hover {
     vertical-align: middle;
 }
 
+.team-logo-small {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
 .race-counter {
     text-align: center;
     font-size: 24px;
@@ -132,7 +140,20 @@ tr:hover {
     justify-content: space-between;
 }
 
-#final-positions tbody tr, #driver-standings tbody tr {
+.driver-item {
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    margin: 5px 0;
+}
+
+.total-points {
+    margin-top: 10px;
+    background-color: #f1f1f1;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+#final-positions tbody tr, #driver-standings tbody tr, #constructor-standings tbody tr {
     cursor: pointer;
 }
 

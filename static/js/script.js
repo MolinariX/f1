@@ -178,6 +178,42 @@ function showDriverDetails(driver, team, logo) {
     document.getElementById('driverDetailsPanel').style.display = 'block';
 }
 
+function showTeamDetails(team, logo, points) {
+    // Find the team's drivers from the global driver standings data
+    const teamDrivers = driverStandingsData.filter(driver => driver.team === team);
+    
+    document.getElementById('driverDetailLogo').src = logo;
+    document.getElementById('driverDetailName').textContent = team;
+    document.getElementById('driverDetailTeam').textContent = 'Constructor';
+    document.getElementById('driverDetailPoints').textContent = points;
+
+    const historyContainer = document.getElementById('driverRaceHistory');
+    historyContainer.innerHTML = '<h3>Team Drivers</h3>';
+    
+    // Show each driver's details
+    teamDrivers.forEach(driver => {
+        const div = document.createElement('div');
+        div.className = 'race-history-item driver-item';
+        div.innerHTML = `
+            <span><img src="${driver.logo}" class="team-logo-small" alt="${driver.team}"> ${driver.driver}</span>
+            <span>${driver.points} pts</span>
+        `;
+        historyContainer.appendChild(div);
+    });
+    
+    // Add total points summary
+    const totalDiv = document.createElement('div');
+    totalDiv.className = 'race-history-item total-points';
+    totalDiv.innerHTML = `
+        <span><strong>Total Team Points</strong></span>
+        <span><strong>${points}</strong></span>
+    `;
+    historyContainer.appendChild(totalDiv);
+
+    document.getElementById('overlay').style.display = 'block';
+    document.getElementById('driverDetailsPanel').style.display = 'block';
+}
+
 function closeDriverDetails() {
     document.getElementById('overlay').style.display = 'none';
     document.getElementById('driverDetailsPanel').style.display = 'none';
@@ -237,7 +273,9 @@ function populateConstructorStandings(tableId, data) {
     tableBody.innerHTML = '';
     data.forEach(row => {
         const tr = document.createElement('tr');
-
+        tr.onclick = () => showTeamDetails(row.team, row.logo, row.points);
+        tr.style.cursor = 'pointer'; // Add pointer cursor to indicate clickable
+        
         const positionTd = document.createElement('td');
         positionTd.textContent = row.position;
         tr.appendChild(positionTd);
