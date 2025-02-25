@@ -1,27 +1,156 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
 
+:root {
+    --bg-color: #f4f4f4;
+    --container-bg: #fff;
+    --text-color: #333;
+    --header-bg: #000;
+    --header-text: #fff;
+    --table-header-bg: #333;
+    --table-header-text: #fff;
+    --table-border: #ddd;
+    --table-hover: #f1f1f1;
+    --btn-bg: #333;
+    --btn-text: #fff;
+    --btn-hover: #555;
+    --btn-disabled: #999;
+    --table-btn-bg: #f1f1f1;
+    --table-btn-text: #333;
+    --table-btn-hover: #ddd;
+    --table-btn-active-bg: #333;
+    --table-btn-active-text: #fff;
+    --podium-box-shadow: rgba(0, 0, 0, 0.1);
+    --driver-item-bg: #f9f9f9;
+    --total-points-bg: #f1f1f1;
+    --overlay-bg: rgba(0, 0, 0, 0.5);
+    --box-shadow: rgba(0, 0, 0, 0.2);
+    --medal-bg: #fff;
+    --medal-shadow: rgba(0, 0, 0, 0.1);
+    --winner-points-color: #666;
+}
+
+.dark-mode {
+    --bg-color: #121212;
+    --container-bg: #1e1e1e;
+    --text-color: #e0e0e0;
+    --header-bg: #000;
+    --header-text: #fff;
+    --table-header-bg: #2c2c2c;
+    --table-header-text: #fff;
+    --table-border: #444;
+    --table-hover: #2a2a2a;
+    --btn-bg: #2c2c2c;
+    --btn-text: #fff;
+    --btn-hover: #3a3a3a;
+    --btn-disabled: #555;
+    --table-btn-bg: #2c2c2c;
+    --table-btn-text: #e0e0e0;
+    --table-btn-hover: #3a3a3a;
+    --table-btn-active-bg: #484848;
+    --table-btn-active-text: #fff;
+    --podium-box-shadow: rgba(0, 0, 0, 0.3);
+    --driver-item-bg: #2a2a2a;
+    --total-points-bg: #2c2c2c;
+    --overlay-bg: rgba(0, 0, 0, 0.7);
+    --box-shadow: rgba(0, 0, 0, 0.4);
+    --medal-bg: #2c2c2c;
+    --medal-shadow: rgba(0, 0, 0, 0.3);
+    --winner-points-color: #aaa;
+}
+
 body {
     font-family: 'Montserrat', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: var(--bg-color);
     position: relative;
+    color: var(--text-color);
+    transition: background-color 0.3s ease;
 }
 
 header {
-    background-color: #000;
-    color: #fff;
+    background-color: var(--header-bg);
+    color: var(--header-text);
     padding: 20px;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+.dark-mode-toggle {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 24px;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .toggle-slider {
+    background-color: #4a4a4a;
+}
+
+input:checked + .toggle-slider:before {
+    transform: translateX(26px);
+}
+
+.toggle-label {
+    margin-right: 6px;
+    font-size: 14px;
+    white-space: nowrap;
 }
 
 .container {
     max-width: 1200px;
     margin: 20px auto;
     padding: 20px;
-    background: #fff;
+    background: var(--container-bg);
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px var(--box-shadow);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 table {
@@ -33,16 +162,17 @@ table {
 th, td {
     padding: 10px;
     text-align: left;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid var(--table-border);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 th {
-    background-color: #333;
-    color: white;
+    background-color: var(--table-header-bg);
+    color: var(--table-header-text);
 }
 
 tr:hover {
-    background-color: #f1f1f1;
+    background-color: var(--table-hover);
 }
 
 .team-logo {
@@ -65,7 +195,8 @@ tr:hover {
     text-align: center;
     font-size: 24px;
     margin-bottom: 20px;
-    color: #333;
+    color: var(--text-color);
+    transition: color 0.3s ease;
 }
 
 .button-container {
@@ -78,22 +209,23 @@ tr:hover {
 .btn {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #333;
-    color: #fff;
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
     text-decoration: none;
     border-radius: 5px;
     font-weight: bold;
     text-align: center;
     cursor: pointer;
     border: none;
+    transition: background-color 0.3s ease;
 }
 
 .btn:hover {
-    background-color: #555;
+    background-color: var(--btn-hover);
 }
 
 .btn:disabled {
-    background-color: #999;
+    background-color: var(--btn-disabled);
     cursor: not-allowed;
 }
 
@@ -104,17 +236,19 @@ tr:hover {
     right: 0;
     width: 300px;
     height: 100%;
-    background: white;
-    box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+    background: var(--container-bg);
+    box-shadow: -2px 0 5px var(--box-shadow);
     padding: 20px;
     overflow-y: auto;
     z-index: 1000;
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .driver-detail-header {
     text-align: center;
     padding: 20px 0;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid var(--table-border);
 }
 
 .driver-detail-header img {
@@ -131,26 +265,29 @@ tr:hover {
     background: none;
     border: none;
     cursor: pointer;
+    color: var(--text-color);
 }
 
 .race-history-item {
     padding: 10px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--table-border);
     display: flex;
     justify-content: space-between;
 }
 
 .driver-item {
-    background-color: #f9f9f9;
+    background-color: var(--driver-item-bg);
     border-radius: 4px;
     margin: 5px 0;
+    transition: background-color 0.3s ease;
 }
 
 .total-points {
     margin-top: 10px;
-    background-color: #f1f1f1;
+    background-color: var(--total-points-bg);
     border-radius: 4px;
     font-weight: bold;
+    transition: background-color 0.3s ease;
 }
 
 #final-positions tbody tr, #driver-standings tbody tr, #constructor-standings tbody tr {
@@ -169,7 +306,7 @@ tr:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.5);
+    background: var(--overlay-bg);
     z-index: 999;
 }
 
@@ -182,10 +319,13 @@ tr:hover {
 
 .race-input {
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--table-border);
     border-radius: 5px;
     font-size: 16px;
     width: 200px;
+    background-color: var(--container-bg);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 .podium-container {
@@ -198,14 +338,15 @@ tr:hover {
 }
 
 .podium-place {
-    background: white;
+    background: var(--container-bg);
     padding: 15px;
     margin: 10px 0;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px var(--podium-box-shadow);
     display: flex;
     align-items: center;
     gap: 15px;
+    transition: background-color 0.3s ease;
 }
 
 .podium-place img {
@@ -216,26 +357,29 @@ tr:hover {
 
 .podium-place.first {
     background: linear-gradient(to right, #ffd700, #fff6a1);
+    color: #000;
 }
 
 .podium-place.second {
     background: linear-gradient(to right, #c0c0c0, #e8e8e8);
+    color: #000;
 }
 
 .podium-place.third {
     background: linear-gradient(to right, #cd7f32, #e8c4a0);
+    color: #000;
 }
 
 .position-medal {
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background: white;
+    background: var(--medal-bg);
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: bold;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px var(--medal-shadow);
 }
 
 .winner-details {
@@ -250,7 +394,7 @@ tr:hover {
 
 .winner-points {
     font-size: 0.9em;
-    color: #666;
+    color: var(--winner-points-color);
 }
 
 /* Table switching styles */
@@ -263,8 +407,8 @@ tr:hover {
 
 .table-btn {
     padding: 10px 15px;
-    background-color: #f1f1f1;
-    color: #333;
+    background-color: var(--table-btn-bg);
+    color: var(--table-btn-text);
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -273,12 +417,12 @@ tr:hover {
 }
 
 .table-btn:hover {
-    background-color: #ddd;
+    background-color: var(--table-btn-hover);
 }
 
 .table-btn.active-btn {
-    background-color: #333;
-    color: white;
+    background-color: var(--table-btn-active-bg);
+    color: var(--table-btn-active-text);
 }
 
 .table-section {

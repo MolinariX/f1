@@ -4,6 +4,37 @@ let raceHistory = {};
 let driverStandingsData = []; // Store the driver standings data globally
 let activeTable = 'final-positions'; // Track which table is currently visible
 
+// Dark mode functionality
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    // Save user preference to localStorage
+    const isDarkMode = document.body.classList.contains('dark-mode');
+    localStorage.setItem('darkMode', isDarkMode);
+}
+
+// Initialize dark mode based on user's saved preference
+document.addEventListener('DOMContentLoaded', () => {
+    const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+    if (savedDarkMode) {
+        document.body.classList.add('dark-mode');
+        document.getElementById('darkModeToggle').checked = true;
+    }
+    
+    // Initialize event listener for dark mode toggle
+    document.getElementById('darkModeToggle').addEventListener('change', toggleDarkMode);
+    
+    // Initialize event listeners for table buttons
+    document.querySelectorAll('.table-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const tableId = e.target.getAttribute('data-table');
+            showTable(tableId);
+        });
+    });
+    
+    // Show the final positions table by default
+    showTable('final-positions');
+});
+
 document.getElementById('set-races').addEventListener('click', () => {
     const input = document.getElementById('total-races');
     const newTotal = parseInt(input.value);
@@ -79,19 +110,6 @@ function showTable(tableId) {
     });
     document.getElementById(tableId + '-btn').classList.add('active-btn');
 }
-
-// Event listeners for table buttons
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.table-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const tableId = e.target.getAttribute('data-table');
-            showTable(tableId);
-        });
-    });
-    
-    // Show the final positions table by default
-    showTable('final-positions');
-});
 
 async function fetchData() {
     const response = await fetch('/data');

@@ -6,11 +6,32 @@
     <title>F1 Race Positions</title>
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="stylesheet" href="static/css/styles.css">
+    <style>
+        /* Estilo adicional para fijar el toggle de dark mode */
+        .dark-mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+    </style>
 </head>
 <body>
     <header>
         <h1>F1 Race Positions</h1>
     </header>
+    
+    <!-- Dark mode toggle fuera del header para que sea fijo -->
+    <div class="dark-mode-toggle">
+        <span class="toggle-label">Dark Mode</span>
+        <label class="toggle-switch">
+            <input type="checkbox" id="darkModeToggle">
+            <span class="toggle-slider"></span>
+        </label>
+    </div>
     
     <div class="container">
         <div class="setup-section">
