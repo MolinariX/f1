@@ -1,6 +1,7 @@
 let raceCount = 0;
 let totalRaces = 0;
 let raceHistory = {};
+let driverStandingsData = []; // Store the driver standings data globally
 
 document.getElementById('set-races').addEventListener('click', () => {
     const input = document.getElementById('total-races');
@@ -21,6 +22,7 @@ document.getElementById('reset-game').addEventListener('click', async () => {
     raceCount = 0;
     totalRaces = 0;
     raceHistory = {};
+    driverStandingsData = [];
     
     // Reset UI elements
     document.getElementById('race-count').textContent = '0';
@@ -63,8 +65,11 @@ async function fetchData() {
         raceHistory = data.race_history;
     }
 
+    // Store driver standings data globally
+    driverStandingsData = data.driver_standings;
+
     populateTable('final-positions', data.final_positions, ['position', 'driver', 'team']);
-    populateDriverStandings('driver-standings', data.driver_standings);
+    populateDriverStandings('driver-standings', driverStandingsData);
     populateConstructorStandings('constructor-standings', data.constructor_standings);
     
     return data;
@@ -130,16 +135,11 @@ function showChampions() {
 }
 
 function showDriverDetails(driver, team, logo) {
-    // Find correct points from driver standings (cumulative total)
-    const driverStandingsTable = document.getElementById('driver-standings')
-        .getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-    
+    // Get the total points from the globally stored driver standings data
     let totalPoints = 0;
-    for (let i = 0; i < driverStandingsTable.length; i++) {
-        const row = driverStandingsTable[i];
-        const rowDriverName = row.cells[1].querySelector('.driver-name-cell').textContent;
-        if (rowDriverName === driver) {
-            totalPoints = row.cells[2].textContent;
+    for (let i = 0; i < driverStandingsData.length; i++) {
+        if (driverStandingsData[i].driver === driver) {
+            totalPoints = driverStandingsData[i].points;
             break;
         }
     }
