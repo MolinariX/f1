@@ -52,23 +52,31 @@ def data():
 
     for i, piloto in enumerate(posiciones_finales):
         puntos_carrera = PUNTOS[i] if i < 10 else 0
+        equipo = get_team_for_driver(piloto)
         resultado_piloto = {
             "position": i + 1,
             "driver": piloto,
-            "team": get_team_for_driver(piloto),
+            "team": equipo,
+            "logo": LOGOS[equipo],
             "points": puntos_carrera
         }
         resultados_carrera["positions"].append(resultado_piloto)
         if i < 10:
             mundial_pilotos[piloto] += puntos_carrera
-            mundial_constructores[get_team_for_driver(piloto)] += puntos_carrera
+            mundial_constructores[equipo] += puntos_carrera
 
     historial_carreras.append(resultados_carrera)
 
     driver_standings = sorted(mundial_pilotos.items(), key=lambda x: x[1], reverse=True)
     constructor_standings = sorted(mundial_constructores.items(), key=lambda x: x[1], reverse=True)
 
+    final_positions = [
+        {"position": pos["position"], "driver": pos["driver"], "team": pos["team"], "logo": LOGOS[pos["team"]], "points": pos["points"]}
+        for pos in resultados_carrera["positions"]
+    ]
+
     return jsonify({
+        "final_positions": final_positions,
         "driver_standings": [
             {"position": i + 1, "driver": piloto, "points": puntos, "team": get_team_for_driver(piloto), "logo": LOGOS[get_team_for_driver(piloto)]}
             for i, (piloto, puntos) in enumerate(driver_standings)
