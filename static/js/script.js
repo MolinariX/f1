@@ -129,11 +129,25 @@ function showChampions() {
     document.getElementById('champions-podium').style.display = 'block';
 }
 
-function showDriverDetails(driver, team, logo, points) {
+function showDriverDetails(driver, team, logo) {
+    // Find correct points from driver standings (cumulative total)
+    const driverStandingsTable = document.getElementById('driver-standings')
+        .getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+    
+    let totalPoints = 0;
+    for (let i = 0; i < driverStandingsTable.length; i++) {
+        const row = driverStandingsTable[i];
+        const rowDriverName = row.cells[1].querySelector('.driver-name-cell').textContent;
+        if (rowDriverName === driver) {
+            totalPoints = row.cells[2].textContent;
+            break;
+        }
+    }
+
     document.getElementById('driverDetailLogo').src = logo;
     document.getElementById('driverDetailName').textContent = driver;
     document.getElementById('driverDetailTeam').textContent = team;
-    document.getElementById('driverDetailPoints').textContent = points;
+    document.getElementById('driverDetailPoints').textContent = totalPoints;
 
     const history = [];
     raceHistory.forEach(race => {
@@ -174,7 +188,7 @@ function populateTable(tableId, data, columns) {
     tableBody.innerHTML = '';
     data.forEach(row => {
         const tr = document.createElement('tr');
-        tr.onclick = () => showDriverDetails(row.driver, row.team, row.logo, row.points || 0);
+        tr.onclick = () => showDriverDetails(row.driver, row.team, row.logo);
         
         columns.forEach(col => {
             const td = document.createElement('td');
@@ -197,7 +211,7 @@ function populateDriverStandings(tableId, data) {
     tableBody.innerHTML = '';
     data.forEach(row => {
         const tr = document.createElement('tr');
-        tr.onclick = () => showDriverDetails(row.driver, row.team, row.logo, row.points);
+        tr.onclick = () => showDriverDetails(row.driver, row.team, row.logo);
         
         const positionTd = document.createElement('td');
         positionTd.textContent = row.position;
