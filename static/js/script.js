@@ -33,6 +33,14 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Show the final positions table by default
     showTable('final-positions');
+    
+    // Create fireworks container if it doesn't exist
+    if (!document.querySelector('.pyro')) {
+        const pyroDiv = document.createElement('div');
+        pyroDiv.className = 'pyro';
+        pyroDiv.innerHTML = '<div class="before"></div><div class="after"></div>';
+        document.body.appendChild(pyroDiv);
+    }
 });
 
 document.getElementById('set-races').addEventListener('click', () => {
@@ -67,6 +75,9 @@ document.getElementById('reset-game').addEventListener('click', async () => {
     document.getElementById('reset-game').style.display = 'none';
     document.getElementById('champions-podium').style.display = 'none';
     
+    // Hide fireworks
+    document.querySelector('.pyro').style.display = 'none';
+    
     // Clear all tables
     ['final-positions', 'driver-standings', 'constructor-standings'].forEach(tableId => {
         const tableBody = document.getElementById(tableId).querySelector('tbody');
@@ -88,10 +99,22 @@ document.getElementById('simulate-race').addEventListener('click', async () => {
         
         if (raceCount === totalRaces) {
             showChampions();
+            playFireworks();
             document.getElementById('simulate-race').style.display = 'none';
         }
     }
 });
+
+// Function to play fireworks animation
+function playFireworks() {
+    const pyro = document.querySelector('.pyro');
+    pyro.style.display = 'block';
+    
+    // Auto-hide fireworks after 10 seconds
+    setTimeout(() => {
+        pyro.style.display = 'none';
+    }, 10000);
+}
 
 // Table switching functionality
 function showTable(tableId) {
@@ -142,6 +165,13 @@ function showChampions() {
     podiumDrivers.innerHTML = '';
     podiumConstructors.innerHTML = '';
 
+    // Add celebration title with animation class
+    const driverTitle = document.querySelector('.drivers-title');
+    const constructorsTitle = document.querySelector('.constructors-title');
+    
+    if (driverTitle) driverTitle.classList.add('celebration-title');
+    if (constructorsTitle) constructorsTitle.classList.add('celebration-title');
+
     // Show top 3 drivers
     for (let i = 0; i < 3; i++) {
         const driverRow = driversStandings[i];
@@ -185,7 +215,10 @@ function showChampions() {
         `;
     }
 
-    document.getElementById('champions-podium').style.display = 'block';
+    // Add animation class to podium container
+    const podiumContainer = document.getElementById('champions-podium');
+    podiumContainer.classList.add('animate');
+    podiumContainer.style.display = 'block';
 }
 
 function showDriverDetails(driver, team, logo) {

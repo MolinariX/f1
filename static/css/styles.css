@@ -564,3 +564,90 @@ tr:hover {
     overflow: hidden;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
+
+/* Estilos para los fuegos artificiales */
+.pyro {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 998;
+    pointer-events: none;
+    display: none;
+}
+
+.pyro > .before, .pyro > .after {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    box-shadow: 0 0 #fff;
+    animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;
+}
+
+.pyro > .after {
+    animation-delay: 1.25s, 1.25s, 1.25s;
+    animation-duration: 1.25s, 1.25s, 6.25s;
+}
+
+@keyframes bang {
+    to {
+        box-shadow: -140px -175.6666666667px #00ffcc, 22px -379.6666666667px #6600ff, 14px -110.6666666667px #ff00d0, 197px -356.6666666667px #ff005e, 208px -176.6666666667px #0099ff, 122px -391.6666666667px #ff8800, 115px -137.6666666667px #e600ff, -160px -16.6666666667px #00ffcc, 170px -298.6666666667px #00ff4d, -115px -71.6666666667px #ff0066, -69px -376.6666666667px #ff00bf, -12px -223.6666666667px #ff0033, 231px -178.6666666667px #00aaff, 23px -110.6666666667px #ff009d, -47px -350.6666666667px #9dff00, -108px -139.6666666667px #ff000d, 27px -61.6666666667px #77ff00, 87px -42.6666666667px #00ffe6, -89px -130.6666666667px #ff00bb, -128px -92.6666666667px #ffbb00, 148px -388.6666666667px #ff00c4, 220px 47.3333333333px #ff00e6, 64px -107.6666666667px #002bff, 160px -51.6666666667px #ff0080, 98px -156.6666666667px #ff0022, 238px -177.6666666667px #ff0037, -151px -100.6666666667px #ff0040, 32px -12.6666666667px #ff5500, 100px -342.6666666667px #00b3ff, -151px -231.6666666667px #00ff4d, 100px -162.6666666667px #00ff0d, 159px -182.6666666667px #00ffdd, 81px -397.6666666667px #00ff73, 121px -352.6666666667px #c800ff, 157px -312.6666666667px #eaff00, 112px -130.6666666667px #ff0095, 150px -380.6666666667px #ff004d, -99px -198.6666666667px #00ff15, 161px -14.6666666667px #ff6f00, 227px -175.6666666667px #00ffa6, 207px 16.3333333333px #ff0004, 237px -175.6666666667px #ff7700, -220px -258.6666666667px #00ff6f, 155px -108.6666666667px #1100ff, 104px -142.6666666667px #0044ff, -142px -321.6666666667px #04ff00, -187px -33.6666666667px #ff0044, 102px 59.3333333333px #0048ff, 195px -193.6666666667px #a6ff00, 34px -122.6666666667px #ff9100;
+    }
+}
+
+@keyframes gravity {
+    to {
+        transform: translateY(200px);
+        opacity: 0;
+    }
+}
+
+@keyframes position {
+    0%, 19.9% {
+        margin-top: 10%;
+        margin-left: 40%;
+    }
+    20%, 39.9% {
+        margin-top: 40%;
+        margin-left: 30%;
+    }
+    40%, 59.9% {
+        margin-top: 20%;
+        margin-left: 70%;
+    }
+    60%, 79.9% {
+        margin-top: 30%;
+        margin-left: 20%;
+    }
+    80%, 99.9% {
+        margin-top: 30%;
+        margin-left: 80%;
+    }
+}
+
+/* Animación de celebración para el título del podio */
+@keyframes celebrate {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.celebration-title {
+    animation: celebrate 1.5s ease-in-out infinite;
+    color: #e10600;
+    text-shadow: 0 0 10px rgba(225, 6, 0, 0.7);
+    font-size: 32px;
+    margin-bottom: 30px;
+}
+
+/* Animación para el podio completo */
+@keyframes podiumAppear {
+    0% { transform: translateY(50px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+.podium-container.animate {
+    animation: podiumAppear 1s ease-out forwards;
+}
