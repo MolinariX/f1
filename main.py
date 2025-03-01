@@ -9,7 +9,7 @@ def favicon():
     return send_from_directory("static", "favicon.ico", mimetype="image/vnd.microsoft.icon")
 
 PILOTOS = ["Verstappen", "Lawson", "Leclerc", "Sainz", "Hamilton", "Russell", "Norris", "Piastri", "Alonso", "Stroll",
-            "Gasly", "Ocon", "Bortoleto", "Bearman", "Tsunoda", "Colapinto", "Hulkenberg", "Antonelli", "Albon", "Hadjar"]
+            "Gasly", "Ocon", "Bortoleto", "Bearman", "Tsunoda", "Colapinto", "Hulkenberg", "Antonelli", "Albon", "Hadjar", "Pérez", "Doohan"]
 
 CONSTRUCTORES = {
     "Red Bull": ["Verstappen", "Lawson"],
@@ -21,7 +21,8 @@ CONSTRUCTORES = {
     "Sauber Audi": ["Hulkenberg", "Bortoleto"],
     "RB": ["Tsunoda", "Hadjar"],
     "Haas": ["Bearman", "Ocon"],
-    "Williams": ["Albon", "Sainz"]
+    "Williams": ["Albon", "Sainz"],
+    "Cadillac": ["Pérez", "Doohan"]
 }
 
 LOGOS = {k: f"/static/logos/{k.lower().replace(' ', '_')}.png" for k in CONSTRUCTORES}
