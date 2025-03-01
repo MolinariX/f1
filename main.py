@@ -23,14 +23,14 @@ PONDERACIONES_PILOTOS = {
     "Norris": 19,       
     "Piastri": 15,      
     "Alonso": 12,        
-    "Stroll": 5,         
+    "Stroll": 4,         
     "Gasly": 10,         
     "Ocon": 8,         
-    "Bortoleto": 5,      
-    "Bearman": 5,        
+    "Bortoleto": 4,      
+    "Bearman": 4,        
     "Tsunoda": 7,        
     "Colapinto": 12, 
-    "Hulkenberg": 9,     
+    "Hulkenberg": 7,     
     "Antonelli": 6,      
     "Albon": 10,         
     "Hadjar": 4       
@@ -45,23 +45,9 @@ FACTOR_EQUIPO = {
     "Aston Martin": 1.0, 
     "Alpine": 1.0,       
     "Sauber Audi": 0.1,  
-    "RB": 0.3,           
+    "RB": 0.1,           
     "Haas": 0.1,         
     "Williams": 0.7     
-}
-
-# Factor adicional para equipos (multiplica la ponderación del piloto)
-FACTOR_EQUIPO = {
-    "Red Bull": 1.5,     # Equipo dominante
-    "Ferrari": 1.4,      # Top equipo
-    "Mercedes": 1.4,     # Top equipo
-    "McLaren": 1.5,      # Actualmente muy competitivo
-    "Aston Martin": 1.2, # Equipo de mitad alta
-    "Alpine": 1.0,       # Equipo de mitad de parrilla
-    "Sauber Audi": 0.8,  # Equipo de mitad baja
-    "RB": 0.9,           # Equipo de mitad baja
-    "Haas": 0.8,         # Equipo de mitad baja
-    "Williams": 0.7,     # Equipo de la parte trasera
 }
 
 CONSTRUCTORES = {
