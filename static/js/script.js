@@ -217,6 +217,11 @@ function showDriverDetails(driver, team, logo) {
 
     const historyContainer = document.getElementById('driverRaceHistory');
     historyContainer.innerHTML = '';
+    
+    // Create a wrapper for the race history items
+    const raceHistoryWrapper = document.createElement('div');
+    raceHistoryWrapper.className = 'race-history-wrapper';
+    
     history.forEach(race => {
         const div = document.createElement('div');
         div.className = 'race-history-item';
@@ -225,11 +230,18 @@ function showDriverDetails(driver, team, logo) {
             <span>P${race.position}</span>
             <span>${race.points} pts</span>
         `;
-        historyContainer.appendChild(div);
+        raceHistoryWrapper.appendChild(div);
     });
+    
+    // Append the wrapper to the history container
+    historyContainer.appendChild(raceHistoryWrapper);
 
+    // Make sure the panel is visible and properly initialized
     document.getElementById('overlay').style.display = 'block';
-    document.getElementById('driverDetailsPanel').style.display = 'block';
+    document.getElementById('driverDetailsPanel').style.display = 'flex';
+    
+    // Ensure the scroll position is at the top
+    historyContainer.scrollTop = 0;
 }
 
 function showTeamDetails(team, logo, points) {
@@ -242,7 +254,16 @@ function showTeamDetails(team, logo, points) {
     document.getElementById('driverDetailPoints').textContent = points;
 
     const historyContainer = document.getElementById('driverRaceHistory');
-    historyContainer.innerHTML = '<h3>Team Drivers</h3>';
+    historyContainer.innerHTML = '';
+    
+    // Create a wrapper for better scrolling
+    const teamContentWrapper = document.createElement('div');
+    teamContentWrapper.className = 'team-content-wrapper';
+    
+    // Add title to the wrapper
+    const titleElement = document.createElement('h3');
+    titleElement.textContent = 'Team Drivers';
+    teamContentWrapper.appendChild(titleElement);
     
     // Show each driver's details
     teamDrivers.forEach(driver => {
@@ -252,7 +273,7 @@ function showTeamDetails(team, logo, points) {
             <span><img src="${driver.logo}" class="team-logo-small" alt="${driver.team}"> ${driver.driver}</span>
             <span>${driver.points} pts</span>
         `;
-        historyContainer.appendChild(div);
+        teamContentWrapper.appendChild(div);
     });
     
     // Add total points summary
@@ -262,10 +283,17 @@ function showTeamDetails(team, logo, points) {
         <span><strong>Total Team Points</strong></span>
         <span><strong>${points}</strong></span>
     `;
-    historyContainer.appendChild(totalDiv);
+    teamContentWrapper.appendChild(totalDiv);
+    
+    // Append the wrapper to the container
+    historyContainer.appendChild(teamContentWrapper);
 
+    // Make sure the panel is visible and properly initialized
     document.getElementById('overlay').style.display = 'block';
-    document.getElementById('driverDetailsPanel').style.display = 'block';
+    document.getElementById('driverDetailsPanel').style.display = 'flex';
+    
+    // Ensure the scroll position is at the top
+    historyContainer.scrollTop = 0;
 }
 
 function closeDriverDetails() {
