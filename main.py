@@ -11,6 +11,59 @@ def favicon():
 PILOTOS = ["Verstappen", "Lawson", "Leclerc", "Sainz", "Hamilton", "Russell", "Norris", "Piastri", "Alonso", "Stroll",
             "Gasly", "Ocon", "Bortoleto", "Bearman", "Tsunoda", "Colapinto", "Hulkenberg", "Antonelli", "Albon", "Hadjar"]
 
+# Ponderaciones mucho más extremas para reflejar la realidad de la F1
+# La escala es de 1 a 20, dando más peso a los top drivers y equipos top
+PONDERACIONES_PILOTOS = {
+    "Verstappen": 20,    
+    "Lawson": 6,         
+    "Leclerc": 18,       
+    "Sainz": 12,         
+    "Hamilton": 20,      
+    "Russell": 18,       
+    "Norris": 19,       
+    "Piastri": 15,      
+    "Alonso": 12,        
+    "Stroll": 5,         
+    "Gasly": 10,         
+    "Ocon": 8,         
+    "Bortoleto": 5,      
+    "Bearman": 5,        
+    "Tsunoda": 7,        
+    "Colapinto": 12, 
+    "Hulkenberg": 9,     
+    "Antonelli": 6,      
+    "Albon": 10,         
+    "Hadjar": 4       
+}
+
+# Factor adicional para equipos (multiplica la ponderación del piloto)
+FACTOR_EQUIPO = {
+    "Red Bull": 3,     
+    "Ferrari": 3,      
+    "Mercedes": 3,     
+    "McLaren": 3,      
+    "Aston Martin": 1.0, 
+    "Alpine": 1.0,       
+    "Sauber Audi": 0.1,  
+    "RB": 0.3,           
+    "Haas": 0.1,         
+    "Williams": 0.7     
+}
+
+# Factor adicional para equipos (multiplica la ponderación del piloto)
+FACTOR_EQUIPO = {
+    "Red Bull": 1.5,     # Equipo dominante
+    "Ferrari": 1.4,      # Top equipo
+    "Mercedes": 1.4,     # Top equipo
+    "McLaren": 1.5,      # Actualmente muy competitivo
+    "Aston Martin": 1.2, # Equipo de mitad alta
+    "Alpine": 1.0,       # Equipo de mitad de parrilla
+    "Sauber Audi": 0.8,  # Equipo de mitad baja
+    "RB": 0.9,           # Equipo de mitad baja
+    "Haas": 0.8,         # Equipo de mitad baja
+    "Williams": 0.7,     # Equipo de la parte trasera
+}
+
 CONSTRUCTORES = {
     "Red Bull": ["Verstappen", "Lawson"],
     "Ferrari": ["Leclerc", "Hamilton"],
@@ -28,6 +81,9 @@ LOGOS = {k: f"/static/logos/{k.lower().replace(' ', '_')}.png" for k in CONSTRUC
 
 PUNTOS = [25, 18, 15, 12, 10, 8, 6, 4, 2, 1]
 
+# Probabilidad de problemas técnicos o incidentes (porcentaje)
+PROB_INCIDENTE = 15  # 15% de probabilidad de que un piloto tenga algún problema
+
 mundial_pilotos = {piloto: 0 for piloto in PILOTOS}
 mundial_constructores = {equipo: 0 for equipo in CONSTRUCTORES.keys()}
 historial_carreras = []
@@ -37,6 +93,62 @@ def get_team_for_driver(driver):
         if driver in drivers:
             return team
     return None
+
+def simular_carrera_realista():
+    # Calculamos la ponderación combinada (piloto + equipo)
+    ponderaciones_combinadas = {}
+    for piloto in PILOTOS:
+        equipo = get_team_for_driver(piloto)
+        factor_equipo = FACTOR_EQUIPO[equipo]
+        ponderaciones_combinadas[piloto] = PONDERACIONES_PILOTOS[piloto] * factor_equipo
+    
+    # Simulamos la qualy/rendimiento base - esto determina el orden "esperado"
+    orden_esperado = []
+    pilotos_disponibles = PILOTOS.copy()
+    
+    while pilotos_disponibles:
+        # Calculamos la suma total de todas las ponderaciones disponibles
+        total_ponderacion = sum(ponderaciones_combinadas[p] for p in pilotos_disponibles)
+        
+        # Elegimos un piloto con probabilidad proporcional a su ponderación
+        valor_aleatorio = random.uniform(0, total_ponderacion)
+        acumulado = 0
+        
+        for piloto in pilotos_disponibles:
+            acumulado += ponderaciones_combinadas[piloto]
+            if acumulado >= valor_aleatorio:
+                orden_esperado.append(piloto)
+                pilotos_disponibles.remove(piloto)
+                break
+    
+    # Ahora simulamos la carrera con posibles incidentes
+    posiciones_finales = orden_esperado.copy()
+    
+    # Simulamos posibles incidentes o problemas técnicos
+    for i, piloto in enumerate(orden_esperado):
+        # Hay una probabilidad de que ocurra un incidente (abandono o problema)
+        if random.randint(1, 100) <= PROB_INCIDENTE:
+            # Severidad del problema (1: leve, 2: moderado, 3: grave/abandono)
+            severidad = random.choices([1, 2, 3], weights=[50, 30, 20])[0]
+            
+            if severidad == 3:
+                # Abandono - movemos al piloto al final
+                posiciones_finales.remove(piloto)
+                posiciones_finales.append(piloto)
+            elif severidad == 2:
+                # Problema moderado - pierde varias posiciones
+                posicion_actual = posiciones_finales.index(piloto)
+                nueva_posicion = min(posicion_actual + random.randint(3, 8), len(posiciones_finales) - 1)
+                posiciones_finales.remove(piloto)
+                posiciones_finales.insert(nueva_posicion, piloto)
+            elif severidad == 1:
+                # Problema leve - pierde algunas posiciones
+                posicion_actual = posiciones_finales.index(piloto)
+                nueva_posicion = min(posicion_actual + random.randint(1, 3), len(posiciones_finales) - 1)
+                posiciones_finales.remove(piloto)
+                posiciones_finales.insert(nueva_posicion, piloto)
+    
+    return posiciones_finales
 
 @app.route('/')
 def index():
@@ -52,7 +164,8 @@ def reset():
 
 @app.route('/data')
 def data():
-    posiciones_finales = random.sample(PILOTOS, len(PILOTOS))
+    # Usamos nuestra función de simulación realista
+    posiciones_finales = simular_carrera_realista()
     resultados_carrera = {"race_number": len(historial_carreras) + 1, "positions": []}
     
     for i, piloto in enumerate(posiciones_finales):
